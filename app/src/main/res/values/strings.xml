@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DARKI</string>
+    <string name="accessibility_service_description">DARKI usa este servicio para leer lo que hay en tu pantalla y controlar tu telefono cuando se lo pides por voz: tocar botones, escribir texto, abrir apps, hacer scroll y navegar entre pantallas. No graba ni envia nada sin que hables con Darki primero.</string>
+</resources>

@@ -1,0 +1,44 @@
+name: Fix Gradle Wrapper
+
+# Este workflow se corre UNA VEZ, a mano, desde la pestana Actions de
+# GitHub (boton "Run workflow"). Genera los archivos reales del Gradle
+# Wrapper (gradlew, gradlew.bat, gradle-wrapper.jar) usando el Gradle
+# autentico que instala gradle/actions/setup-gradle, y los sube
+# directo al repo con un commit. Despues de correrlo una vez, tu
+# proyecto queda completo para abrir en Android Studio o compilar
+# desde Termux tambien, no solo desde GitHub Actions.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-wrapper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo del repo
+        uses: actions/checkout@v6
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Generar el Gradle Wrapper autentico
+        run: gradle wrapper
+
+      - name: Dar permiso de ejecucion a gradlew
+        run: chmod +x ./gradlew
+
+      - name: Confirmar y subir los archivos generados
+        run: |
+          git config user.name "darki-bot"
+          git config user.email "darki-bot@users.noreply.github.com"
+          git add gradlew gradlew.bat gradle/wrapper/gradle-wrapper.jar gradle/wrapper/gradle-wrapper.properties
+          git commit -m "Agregar Gradle Wrapper generado automaticamente" || echo "Nada que confirmar, ya estaba al dia"
+          git push

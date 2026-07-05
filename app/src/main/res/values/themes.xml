@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.DarkiOS" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="colorPrimary">#33E1FF</item>
+        <item name="colorSecondary">#7B5CFF</item>
+    </style>
+</resources>

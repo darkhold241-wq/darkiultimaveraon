@@ -1,0 +1,46 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Aura morada de fondo (aproximacion de glow con gradiente radial;
+         VectorDrawable no soporta blur real, si mas adelante queres un
+         bloom de verdad tocaria un shader en runtime o un PNG con blur) -->
+    <path android:pathData="M54,4 A50,50 0 1,1 53.9,4 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="54"
+                android:centerY="54"
+                android:gradientRadius="52"
+                android:startColor="#59B983FF"
+                android:endColor="#005B1FB3" />
+        </aapt:attr>
+    </path>
+
+    <!-- Palo vertical de la D -->
+    <path android:pathData="M29,24 L49,24 L49,84 L29,84 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="29" android:startY="24"
+                android:endX="49" android:endY="84"
+                android:startColor="#C9A6FF"
+                android:endColor="#6C2BD9" />
+        </aapt:attr>
+    </path>
+
+    <!-- Panza / curva de la D -->
+    <path android:pathData="M49,24 A30,30 0 0 1 49,84 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="49" android:startY="24"
+                android:endX="79" android:endY="84"
+                android:startColor="#B983FF"
+                android:endColor="#4A1594" />
+        </aapt:attr>
+    </path>
+</vector>

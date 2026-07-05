@@ -1,0 +1,47 @@
+name: Build DARKI APK
+
+# Se ejecuta solo con git push (o manualmente desde la pestaña Actions).
+# No necesitas PC: todo corre en los servidores de GitHub.
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Descargar el codigo del repo
+        uses: actions/checkout@v6
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      # No dependemos de que gradlew ya este en el repo: lo generamos
+      # (o regeneramos) en cada corrida usando el Gradle real que
+      # setup-gradle acaba de instalar. Esto evita el problema de
+      # "faltan los archivos del wrapper" para siempre.
+      - name: Generar el Gradle Wrapper
+        run: gradle wrapper
+
+      - name: Dar permiso de ejecucion a gradlew
+        run: chmod +x ./gradlew
+
+      - name: Compilar APK de debug
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Subir el APK como artefacto descargable
+        uses: actions/upload-artifact@v4
+        with:
+          name: darki-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
