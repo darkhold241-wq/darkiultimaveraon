@@ -42,7 +42,7 @@ object SpeakerVerifier {
         val size = VoiceprintExtractor.EMBEDDING_SIZE
         val avg = FloatArray(size)
         for (emb in embeddings) for (i in 0 until size) avg[i] += emb[i]
-        for (i in 0 until size) avg[i] /= embeddings.size
+        for (i in 0 until size) avg[i] = avg[i] / embeddings.size
 
         val normalized = VoiceprintExtractor.l2Normalize(avg)
         SecurePrefs.saveVoiceprint(context, normalized)
