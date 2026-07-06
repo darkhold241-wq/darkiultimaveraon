@@ -1,0 +1,26 @@
+name: Build DARKI APK with Model
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - run: |
+          mkdir -p app/src/main/assets/model
+          curl -L "https://drive.google.com/uc?id=13D21VxIymbh-Fdi2D-jA45fDgcCnZEF6&export=download" -o /tmp/vosk-model.zip
+          unzip -q /tmp/vosk-model.zip -d /tmp/vosk_temp/
+          cp -r /tmp/vosk_temp/vosk-model-small-es-0.42/* app/src/main/assets/model/ 2>/dev/null || cp -r /tmp/vosk_temp/* app/src/main/assets/model/
+      - run: chmod +x gradlew && ./gradlew clean build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: darki-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
