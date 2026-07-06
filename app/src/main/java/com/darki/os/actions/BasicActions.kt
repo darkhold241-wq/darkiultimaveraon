@@ -168,7 +168,7 @@ class BluetoothSettingsAction : DarkiAction {
 
     override suspend fun execute(context: Context, command: String): String {
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Intent(Settings.Panel.ACTION_BLUETOOTH)
+            Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
         } else {
             Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
         }
