@@ -144,6 +144,46 @@ internet:
 plano, no binario) apuntando a Gradle 8.7, que es la versión que
 necesita el Android Gradle Plugin 8.5.0 que usa este proyecto.
 
+## 📥 PASO CRÍTICO: Descargar el modelo de Vosk
+
+**El modelo de reconocimiento de voz (~40MB) NO está en el repositorio.**
+
+Sin este paso, la app compila pero falla con: `"Falta el modelo de voz en assets/model"`
+
+### Opción 1: Script automático (recomendado)
+
+**En Windows:**
+```bash
+download_model.bat
+```
+
+**En Mac/Linux:**
+```bash
+chmod +x download_model.sh
+./download_model.sh
+```
+
+El script descarga el modelo desde Google Drive automáticamente a la carpeta correcta.
+
+### Opción 2: Manual (si el script no funciona)
+
+1. Descarga desde: https://alphacephei.com/vosk/models
+2. Busca: `vosk-model-small-es-0.42.zip`
+3. Descomprime el contenido (NO la carpeta externa) en:
+   ```
+   app/src/main/assets/model/
+   ```
+4. La estructura debe quedar así:
+   ```
+   app/src/main/assets/model/
+   ├── am/
+   ├── conf/
+   ├── graph/
+   ├── ivector/
+   ├── mfcc.conf
+   └── README
+   ```
+
 ## Cómo instalar esto, 100% desde el celular (sin PC)
 
 ### 1. Subir estos archivos a tu repo
@@ -189,10 +229,23 @@ Con el push, `build-apk.yml` arranca solo. Para verlo:
   y notificaciones
 - Tocá "Activar DARKI"
 
-Falta un paso manual aparte: el modelo de voz de Vosk (~40MB) no viaja
-en el repo por su tamaño. Sin él, la app compila e instala bien, pero
-el reconocimiento de voz va a fallar con un mensaje de error claro
-hasta que lo agregues (ver README anterior / te lo repito si querés).
+## Verificación: ¿El modelo está en el APK?
+
+Después de descargar/compilar, verifica:
+
+```bash
+unzip -l app/build/outputs/apk/debug/app-debug.apk | grep "assets/model/"
+```
+
+Deberías ver archivos como:
+```
+assets/model/mfcc.conf
+assets/model/am/
+assets/model/conf/
+assets/model/graph/
+```
+
+Si ves eso, ¡está bien! Si no ves nada, reviaja el paso de descarga del modelo.
 
 ## Qué NO alcancé a probar
 Soy honesto: no tengo un teléfono ni un emulador Android para probarlo
