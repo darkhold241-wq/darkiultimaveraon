@@ -96,11 +96,10 @@ object VoiceprintExtractor {
 
         if (voicedFrames.size < 3) return null
 
-        val mean = DoubleArray(MFCC_COUNT)
-        for (frame in voicedFrames) for (i in 0 until MFCC_COUNT) mean[i] += frame[i]
-        for (i in 0 until MFCC_COUNT) mean[i] = mean[i] / voicedFrames.size
-
-        val std = DoubleArray(MFCC_COUNT)
+        valmean=DoubleArray(MFCC_COUNT) { i ->
+       -> voicedFrames.sumOf { it[i] } / voicedFrames.size }
+            
+            val std = DoubleArray(MFCC_COUNT)
         for (frame in voicedFrames) for (i in 0 until MFCC_COUNT) {
             val d = frame[i] - mean[i]
             std[i] += d * d
